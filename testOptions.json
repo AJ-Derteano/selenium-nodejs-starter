@@ -1,12 +1,19 @@
 {
   "files": [],
   "virtualUserMultiplier": 1,
-  "customColumns": ["enterprise", "department", "feature", "scenario"],
+  "customColumns": [
+    "enterprise",
+    "department",
+    "feature",
+    "scenario"
+  ],
   "virtualUserSuites": [
     {
       "skip": false,
       "identifier": "first-test",
-      "files": [],
+      "files": [
+        "shouldAppearFirstFour.test"
+      ],
       "variables": {
         "url": "https://usil.edu.pe/",
         "searchText": "USIL"
@@ -15,10 +22,25 @@
     {
       "skip": false,
       "identifier": "second-test",
-      "files": [],
+      "files": [
+        "shouldAppearFirstFour.test"
+      ],
       "variables": {
         "url": "https://www.coloringdreams.com/",
         "searchText": "${SECRET_SEARCH}"
+      }
+    },
+    {
+      "skip": false,
+      "identifier": "create-acount-ecommer",
+      "files": [
+        "registerAccount.test"
+      ],
+      "variables": {
+        "email": "ecommer.jorge@email.com",
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "expectValue": "Great! Now check your email (ecommer.jorge@email.com) to complete registration."
       }
     }
   ]
