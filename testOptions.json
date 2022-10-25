@@ -9,7 +9,7 @@
   ],
   "virtualUserSuites": [
     {
-      "skip": false,
+      "skip": true,
       "identifier": "first-test",
       "files": [
         "shouldAppearFirstFour.test"
@@ -20,7 +20,7 @@
       }
     },
     {
-      "skip": false,
+      "skip": true,
       "identifier": "second-test",
       "files": [
         "shouldAppearFirstFour.test"
@@ -31,7 +31,7 @@
       }
     },
     {
-      "skip": false,
+      "skip": true,
       "identifier": "create-acount-ecommer",
       "files": [
         "registerAccount.test"
@@ -41,6 +41,141 @@
         "firstName": "Jorge",
         "lastName": "Lopez",
         "expectValue": "Great! Now check your email (ecommer.jorge@email.com) to complete registration."
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "create-acount-ecommer",
+      "files": [
+        "registerAccountError.test"
+      ],
+      "variables": {
+        "email": "ecommer.jorge",
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "expectValue": false
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "registerValidEmptyField.test"
+      ],
+      "variables": {
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "username": "jorge95",
+        "passwd": "lopez95",
+        "address": "",
+        "mobile": 963852741,
+        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
+        "expectValue": "customersignup"
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "registerValidEmptyField.test"
+      ],
+      "variables": {
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "username": "jorge95",
+        "passwd": "lopez95",
+        "address": "",
+        "mobile": 963852741,
+        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
+        "expectValue": "customersignup"
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "registerValidEmptyField.test"
+      ],
+      "variables": {
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "username": "jorge95",
+        "passwd": "lopez95",
+        "address": "",
+        "mobile": 963852741,
+        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
+        "expectValue": "customersignup"
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "registerValidEmptyField.test"
+      ],
+      "variables": {
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "username": "jorge95",
+        "passwd": "lopez95",
+        "address": "",
+        "mobile": 963852741,
+        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
+        "expectValue": "customersignup"
+      }
+    },
+    {
+      "skip": false,
+      "identifier": "ecommerce",
+      "files": [
+        "registerItem.test"
+      ],
+      "variables": {
+        "username": "admin",
+        "passwd": "javaisthebest",
+        "productName": "Smart TV LG",
+        "description": "Smart Tv LG 55'' OLED 8K",
+        "price": 1599,
+        "productImage": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/smart_tv_oled.webp",
+        "expectValue": "registered"
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "searchItem.test"
+      ],
+      "variables": {
+        "productName": "Smart TV",
+        "expectValue": 1
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "updateItem.test"
+      ],
+      "variables": {
+        "username": "admin",
+        "passwd": "javaisthebest",
+        "productName": "Smart TV LG",
+        "description": "Smart Tv LG 55'' OLED 8K",
+        "price": 2999,
+        "expectValue": 1
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce",
+      "files": [
+        "deleteItem.test"
+      ],
+      "variables": {
+        "username": "admin",
+        "passwd": "javaisthebest",
+        "expectValue": 1
       }
     }
   ]

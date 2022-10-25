@@ -1,4 +1,6 @@
 node_modules
+tmp
+test_screen
 jest-output.json
 .env
 *-jest-output.json

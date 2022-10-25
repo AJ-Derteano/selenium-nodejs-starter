@@ -22,7 +22,7 @@ const testOptions = envSettings.loadJsonFileSync("testOptions.json", "utf8");
  * @description Print the report table
  */
 const createTable = (suiteIdentifier, stderr, virtualUser) => {
-  const jestOutput = require(`../${suiteIdentifier}-jest-output.json`);
+  const jestOutput = require(`../tmp/${suiteIdentifier}-jest-output.json`);
 
   console.info(
     `\n# ${virtualUser} Jest report table for the ${suiteIdentifier} suite\n`
@@ -154,7 +154,7 @@ const main = () => {
 
         //* Spawns the jest process
         exec(
-          `npx jest --verbose --json --runInBand --outputFile=${suiteIdentifier}-jest-output.json ${testFiles.join(
+          `npx jest --verbose --json --runInBand --outputFile=tmp/${suiteIdentifier}-jest-output.json ${testFiles.join(
             " "
           )}`,
           {
