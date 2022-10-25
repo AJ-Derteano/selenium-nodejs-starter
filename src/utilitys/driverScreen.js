@@ -11,7 +11,7 @@ const fs = require("fs")
  * Take screen shot with Welenium WebDriver
  * 
  */
-const driverScreen = async (driver, path) => {
+const driverScreen = async (driver, name, path) => {
   /**
    * Default values
    */
@@ -24,7 +24,7 @@ const driverScreen = async (driver, path) => {
    */
   const screenShot = await driver.takeScreenshot();
 
-  let filePathName = `${path || DEFAULT_PATH}${DEFAULT_NAME || 'screen_shot'}.png`
+  let filePathName = `${path || DEFAULT_PATH}${name || DEFAULT_NAME || 'screen_shot'}.png`
 
   fs.writeFile(
     filePathName,

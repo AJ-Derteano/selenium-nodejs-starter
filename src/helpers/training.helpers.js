@@ -131,20 +131,8 @@ const trainingHelpers = {
       console.log(131, err)
     }
   },
-  registerItem: async (driver, credentials, product) => {
+  registerItem: async (driver, product) => {
     try {
-      /**
-       * Go to register product
-       */
-      const inpUserName = await driver.findElement(By.name("username"));
-      inpUserName.sendKeys(credentials.username);
-
-      const inpUserPass = await driver.findElement(By.name("password"));
-      inpUserPass.sendKeys(credentials.password);
-
-      const btnLogin = await driver.findElement(By.css("form.box input[type='submit']"));
-      btnLogin.click();
-
       const btnRegisterProduct = await driver.wait(
         until.elementLocated(By.css("div a[href='/admin-products']")),
         1 * 1000
@@ -215,20 +203,8 @@ const trainingHelpers = {
       console.log(err)
     }
   },
-  updateItem: async (driver, credentials, itemUpdate) => {
+  updateItem: async (driver, itemUpdate) => {
     try {
-      /**
-       * Go to update product
-       */
-      const inpUserName = await driver.findElement(By.name("username"));
-      inpUserName.sendKeys(credentials.username);
-
-      const inpUserPass = await driver.findElement(By.name("password"));
-      inpUserPass.sendKeys(credentials.password);
-
-      const btnLogin = await driver.findElement(By.css("form.box input[type='submit']"));
-      btnLogin.click();
-
       const btnListProduct = await driver.wait(
         until.elementLocated(By.css("div a[href='/admin-products']")),
         1 * 1000
@@ -284,27 +260,21 @@ const trainingHelpers = {
       console.log(err)
     }
   },
-  deleteItem: async (driver, credentials) => {
+  deleteItem: async (driver) => {
     try {
       /**
-       * Go to update product
+       * Go to product list
        */
-      const inpUserName = await driver.findElement(By.name("username"));
-      inpUserName.sendKeys(credentials.username);
-
-      const inpUserPass = await driver.findElement(By.name("password"));
-      inpUserPass.sendKeys(credentials.password);
-
-      const btnLogin = await driver.findElement(By.css("form.box input[type='submit']"));
-      btnLogin.click();
-
       const btnProducts = await driver.wait(
         until.elementLocated(By.css("div a[href='/admin-products']")),
         1 * 1000
       );
       btnProducts.click();
 
-      const productLength = await driver.wait(
+      /**
+       * Get initial length result of products list
+       */
+      const initialListProduct = await driver.wait(
         until.elementsLocated(By.css("table#dev-table tbody tr")),
         1 * 1000
       )
@@ -315,7 +285,14 @@ const trainingHelpers = {
       )
       product.click();
 
-      return productLength.length
+      await driver.sleep(1000);
+
+      const finallyListProduct = await driver.wait(
+        until.elementsLocated(By.css("table#dev-table tbody tr")),
+        1 * 1000
+      )
+
+      return finallyListProduct.length - initialListProduct.length
     } catch (err) {
       console.log(err)
     }

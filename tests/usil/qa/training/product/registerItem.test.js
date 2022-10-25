@@ -2,6 +2,7 @@
 const trainingHelpers = require("../../../../../src/helpers/training.helpers");
 const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
+const commonSteps = require("./commonSteps");
 
 const product = {
   name: process.env.productName,
@@ -22,21 +23,22 @@ describe(`Test cases for products`, () => {
 
   beforeAll(async () => {
     driver = await getBrowserDriver();
+
+    await commonSteps.openDriverUrl(driver);
+    await commonSteps.loginAdmin(driver)
   })
 
   beforeEach(async () => {
-    await driver.get("http://127.0.0.1:8000/adminlogin");
+    // await driver.get("http://127.0.0.1:8000/adminlogin");
   })
 
   it(`Register product [${product.name}]`, async () => {
-    const value = await trainingHelpers.registerItem(driver, credentials, product);
-
-    // await driverScreen(driver, './test_screen/')
+    const value = await trainingHelpers.registerItem(driver, product);
 
     expect(value).toEqual(expectValue);
   })
 
   afterAll(async () => {
-    await driver.quit();
+    await commonSteps.quitDriver(driver);
   })
 })

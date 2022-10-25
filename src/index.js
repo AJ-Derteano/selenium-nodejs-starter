@@ -113,11 +113,10 @@ const main = () => {
   let suiteIndex = 0;
   const sysOS = os.type();
 
-  for (
-    let index = 0;
-    index < (testOptions.virtualUserMultiplier || 1);
-    index++
-  ) {
+  const numberCases = testOptions.virtualUserMultiplier || 1
+
+  for (let index = 0; index < numberCases; index++) {
+
     for (const suite of testOptions.virtualUserSuites) {
       if (!suite.skip) {
         const suiteIdentifier = suite.identifier

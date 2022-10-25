@@ -131,6 +131,7 @@
         "registerItem.test"
       ],
       "variables": {
+        "url": "http://127.0.0.1:8000/adminlogin",
         "username": "admin",
         "passwd": "javaisthebest",
         "productName": "Smart TV LG",
@@ -147,7 +148,7 @@
         "searchItem.test"
       ],
       "variables": {
-        "productName": "Smart TV",
+        "productName": "Smart TV LG",
         "expectValue": 1
       }
     },
@@ -158,6 +159,7 @@
         "updateItem.test"
       ],
       "variables": {
+        "url": "http://127.0.0.1:8000/adminlogin",
         "username": "admin",
         "passwd": "javaisthebest",
         "productName": "Smart TV LG",
@@ -167,15 +169,16 @@
       }
     },
     {
-      "skip": true,
+      "skip": false,
       "identifier": "ecommerce",
       "files": [
         "deleteItem.test"
       ],
       "variables": {
+        "url": "http://127.0.0.1:8000/adminlogin",
         "username": "admin",
         "passwd": "javaisthebest",
-        "expectValue": 1
+        "expectValue": -1
       }
     }
   ]
