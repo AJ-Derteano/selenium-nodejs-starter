@@ -7,6 +7,7 @@ const os = require("os");
 const { EnvSettings } = require("advanced-settings");
 
 const util = require("util");
+const sortArrayJson = require("./helpers/sortResult");
 
 const exec = util.promisify(require("child_process").exec);
 
@@ -22,6 +23,7 @@ const testOptions = envSettings.loadJsonFileSync("testOptions.json", "utf8");
  * @description Print the report table
  */
 const createTable = (suiteIdentifier, stderr, virtualUser) => {
+
   const jestOutput = require(`../tmp/${suiteIdentifier}-jest-output.json`);
   const reportMode = testOptions.reportMode
 
@@ -52,7 +54,11 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
 
   let testResultIndex = 0;
 
-  for (const testResult of jestOutput.testResults) {
+
+  let testResults = sortArrayJson(jestOutput.testResults, 'name')
+
+  for (const testResult of testResults) {
+
     const path =
       os.type() === "Windows_NT"
         ? testResult.name.split("\\")
@@ -124,6 +130,7 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
     );
 
     table.push([...contentToPush]);
+
     testResultIndex++;
   } //* Inserts data to the table
 
