@@ -23,6 +23,7 @@ const testOptions = envSettings.loadJsonFileSync("testOptions.json", "utf8");
  */
 const createTable = (suiteIdentifier, stderr, virtualUser) => {
   const jestOutput = require(`../tmp/${suiteIdentifier}-jest-output.json`);
+  const fixedFolder = testOptions.fixedFolder
 
   console.info(
     `\n# ${virtualUser} Jest report table for the ${suiteIdentifier} suite\n`
@@ -33,11 +34,11 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
   const colWidths = [];
 
   tableHead.push("#".blue);
-  colWidths.push(5);
+  colWidths.push(3);
 
-  testOptions.customColumns.forEach((column) => {
+  testOptions.customColumns.forEach((column, index) => {
     tableHead.push(`${column}`.blue);
-    colWidths.push(30);
+    colWidths.push(index !== 1 ? 30 : 40);
   });
 
   tableHead.push("Status".blue);
@@ -68,7 +69,35 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
       continue;
     }
 
-    const tableValues = path.slice(testIndex + 1, path.length - 1);
+    let tableValues = path.slice(testIndex + 1, path.length);
+
+    /**
+     * Rename the stage to remove'.test.js'
+     */
+    let renameScenario = tableValues.pop().split('.')[0]
+    tableValues.push(renameScenario)
+
+    /**
+     * If the length is greater than allowed, adjust
+     */
+    if (tableValues.length > fixedFolder) {
+      let fixedTableValues = [];
+
+      /**
+       * The first is the system and we remove it so as not to adjust it
+       */
+      fixedTableValues.push(tableValues.shift())
+
+      let option = '';
+      for (let index = 0; index < tableValues.length - 1; index++) {
+        option += `/${tableValues[index]}`
+      }
+
+      fixedTableValues.push(option)
+      fixedTableValues.push(tableValues.pop())
+
+      tableValues = fixedTableValues
+    }
 
     if (tableValues.length !== testOptions.customColumns.length) {
       console.log(

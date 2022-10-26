@@ -1,8 +1,7 @@
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
-const driverScreen = require("../../../../../src/utilitys/driverScreen");
-const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
-const commonSteps = require("./commonSteps");
-
+const trainingHelpers = require("../../../src/helpers/training.helpers");
+const driverScreen = require("../../../src/utilitys/driverScreen");
+const getBrowserDriver = require("../../../src/browsers/browserDriver");
+const commonSteps = require("../commonSteps");
 let expectValue = process.env.expectValue;
 
 describe(`Test cases for products`, () => {

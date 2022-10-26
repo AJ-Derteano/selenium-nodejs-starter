@@ -1,6 +1,6 @@
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
-const driverScreen = require("../../../../../src/utilitys/driverScreen");
-const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
+const trainingHelpers = require("../../../src/helpers/training.helpers");
+const driverScreen = require("../../../src/utilitys/driverScreen");
+const getBrowserDriver = require("../../../src/browsers/browserDriver");
 
 const productName = process.env.productName;
 

@@ -1,10 +1,10 @@
 {
   "files": [],
   "virtualUserMultiplier": 1,
+  "fixedFolder": 3,
   "customColumns": [
-    "enterprise",
-    "department",
-    "feature",
+    "system",
+    "functionality",
     "scenario"
   ],
   "virtualUserSuites": [
@@ -126,9 +126,9 @@
     },
     {
       "skip": false,
-      "identifier": "ecommerce",
+      "identifier": "ecommerce-registrar",
       "files": [
-        "registerItem.test"
+        "crearProductoSimple.test"
       ],
       "variables": {
         "url": "http://127.0.0.1:8000/adminlogin",
@@ -142,10 +142,10 @@
       }
     },
     {
-      "skip": true,
-      "identifier": "ecommerce",
+      "skip": false,
+      "identifier": "ecommerce-buscar",
       "files": [
-        "searchItem.test"
+        "buscarProducto.test"
       ],
       "variables": {
         "productName": "Smart TV LG",
@@ -156,7 +156,7 @@
       "skip": true,
       "identifier": "ecommerce",
       "files": [
-        "updateItem.test"
+        "modificarProducto.test"
       ],
       "variables": {
         "url": "http://127.0.0.1:8000/adminlogin",
@@ -169,10 +169,10 @@
       }
     },
     {
-      "skip": false,
-      "identifier": "ecommerce",
+      "skip": true,
+      "identifier": "ecommerce-delete",
       "files": [
-        "deleteItem.test"
+        "eliminarProducto.test"
       ],
       "variables": {
         "url": "http://127.0.0.1:8000/adminlogin",

@@ -16,7 +16,7 @@ const commonSteps = {
   },
   openDriverUrl: async (driver) => {
     const { url } = setting.getUrl();
-    
+
     await driver.get(url);
   },
   quitDriver: async (driver) => {

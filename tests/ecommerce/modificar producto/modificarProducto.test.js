@@ -1,8 +1,8 @@
 //http://127.0.0.1:8000/adminlog 
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
-const driverScreen = require("../../../../../src/utilitys/driverScreen");
-const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
-const commonSteps = require("./commonSteps");
+const trainingHelpers = require("../../../src/helpers/training.helpers");
+const driverScreen = require("../../../src/utilitys/driverScreen");
+const getBrowserDriver = require("../../../src/browsers/browserDriver");
+const commonSteps = require("../commonSteps");
 
 const product = {
   name: process.env.productName,
