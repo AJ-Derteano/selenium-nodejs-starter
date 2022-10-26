@@ -15,9 +15,9 @@ const driverScreen = async (driver, name, path) => {
   /**
    * Default values
    */
-  const DEFAULT_PATH = './test_screen/'
-  let DEFAULT_NAME = await driver.getCurrentUrl();
-  DEFAULT_NAME = `${DEFAULT_NAME.split('/').pop()}`;
+  const DEFAULT_PATH = './screenshoot/';
+  const URL = await driver.getCurrentUrl();
+  const DEFAULT_NAME = `${URL.split('/').pop()}`;
 
   /**
    * Take screen shot
@@ -34,7 +34,7 @@ const driverScreen = async (driver, name, path) => {
       if (err) {
         console.log(err)
       } else {
-        console.log('File written successfully\n', `${filePathName}`)
+        // console.log('File written successfully\n', `${filePathName}`)
         // console.log("The written has the following contents:");
         // console.log(fs.readFileSync("screen.png", "utf8"));
       }
