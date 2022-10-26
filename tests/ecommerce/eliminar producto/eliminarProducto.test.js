@@ -1,4 +1,4 @@
-const trainingHelpers = require("../../../src/helpers/training.helpers");
+const ecommerceHelper = require("../ecommerceHelper");
 const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
 const commonSteps = require("../commonSteps");
@@ -19,7 +19,7 @@ describe(`Test cases for products`, () => {
   })
 
   it(`Delete product`, async () => {
-    const value = await trainingHelpers.deleteItem(driver);
+    const value = await ecommerceHelper.deleteItem(driver);
 
     expect(value).toEqual(parseInt(expectValue));
   })

@@ -1,7 +1,7 @@
 const { By, until, Key } = require("selenium-webdriver");
-const driverScreen = require("../utilitys/driverScreen");
+const driverScreen = require("../../src/utilitys/driverScreen");
 
-const trainingHelpers = {
+const ecommerceHelper = {
   createAcount: async (driver, userData) => {
     try {
       /**
@@ -299,4 +299,4 @@ const trainingHelpers = {
   }
 }
 
-module.exports = trainingHelpers
+module.exports = ecommerceHelper

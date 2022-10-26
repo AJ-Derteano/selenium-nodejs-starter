@@ -1,4 +1,4 @@
-const trainingHelpers = require("../../../src/helpers/training.helpers");
+const ecommerceHelper = require("../ecommerceHelper");
 const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
 
@@ -18,7 +18,7 @@ describe(`Test cases for products`, () => {
   })
 
   it(`Search product [${productName}]`, async () => {
-    const value = await trainingHelpers.searchItem(driver, productName);
+    const value = await ecommerceHelper.searchItem(driver, productName);
 
     await driverScreen(driver, 'search_item')
 

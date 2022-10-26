@@ -1,5 +1,4 @@
-//http://127.0.0.1:8000/adminlog 
-const trainingHelpers = require("../../../src/helpers/training.helpers");
+const ecommerceHelper = require("../ecommerceHelper");
 const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
 const commonSteps = require("../commonSteps");
@@ -29,7 +28,7 @@ describe(`Test cases for products`, () => {
   })
 
   it(`Update product [${product.name}]`, async () => {
-    const value = await trainingHelpers.updateItem(driver, product);
+    const value = await ecommerceHelper.updateItem(driver, product);
 
     await driverScreen(driver, 'update_item')
 

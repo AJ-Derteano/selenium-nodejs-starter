@@ -1,5 +1,4 @@
-//http://127.0.0.1:8000/adminlog 
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
+const ecommerceHelper = require("../../../ecommerceHelper")
 const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 const commonSteps = require("../../../commonSteps");
@@ -33,7 +32,7 @@ describe(`Test cases for products`, () => {
   })
 
   it(`Register product [${product.name}]`, async () => {
-    const value = await trainingHelpers.registerItem(driver, product);
+    const value = await ecommerceHelper.registerItem(driver, product);
 
     expect(value).toEqual(expectValue);
   })
