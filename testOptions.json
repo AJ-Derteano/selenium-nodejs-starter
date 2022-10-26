@@ -1,8 +1,8 @@
 {
   "files": [],
   "virtualUserMultiplier": 1,
-  "fixedFolder": 3,
-  "customColumns": [
+  "reportMode": "dynamicDeep",
+  "columnNames": [
     "system",
     "functionality",
     "scenario"
@@ -75,57 +75,6 @@
     },
     {
       "skip": true,
-      "identifier": "ecommerce",
-      "files": [
-        "registerValidEmptyField.test"
-      ],
-      "variables": {
-        "firstName": "Jorge",
-        "lastName": "Lopez",
-        "username": "jorge95",
-        "passwd": "lopez95",
-        "address": "",
-        "mobile": 963852741,
-        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
-        "expectValue": "customersignup"
-      }
-    },
-    {
-      "skip": true,
-      "identifier": "ecommerce",
-      "files": [
-        "registerValidEmptyField.test"
-      ],
-      "variables": {
-        "firstName": "Jorge",
-        "lastName": "Lopez",
-        "username": "jorge95",
-        "passwd": "lopez95",
-        "address": "",
-        "mobile": 963852741,
-        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
-        "expectValue": "customersignup"
-      }
-    },
-    {
-      "skip": true,
-      "identifier": "ecommerce",
-      "files": [
-        "registerValidEmptyField.test"
-      ],
-      "variables": {
-        "firstName": "Jorge",
-        "lastName": "Lopez",
-        "username": "jorge95",
-        "passwd": "lopez95",
-        "address": "",
-        "mobile": 963852741,
-        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
-        "expectValue": "customersignup"
-      }
-    },
-    {
-      "skip": false,
       "identifier": "ecommerce-registrar",
       "files": [
         "crearProductoSimple.test"
@@ -179,6 +128,24 @@
         "username": "admin",
         "passwd": "javaisthebest",
         "expectValue": -1
+      }
+    },
+    {
+      "skip": true,
+      "identifier": "ecommerce-register-user-account",
+      "files": [
+        "registroUsuario.test"
+      ],
+      "variables": {
+        "url": "http://localhost:8000/customersignup",
+        "firstName": "Jorge",
+        "lastName": "Lopez",
+        "username": "jorge95",
+        "password": "lopez95",
+        "address": "Av. Margarita #123",
+        "mobile": 963852741,
+        "profile_pic": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/avatar.webp",
+        "expectValue": "customersignup"
       }
     }
   ]

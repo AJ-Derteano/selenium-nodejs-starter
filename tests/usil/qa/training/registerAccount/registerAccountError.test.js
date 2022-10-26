@@ -1,4 +1,4 @@
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
+/* const trainingHelpers = require("../../../../../src/helpers/training.helpers");
 const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 
@@ -33,4 +33,4 @@ describe(`Error al registrar un usuario con correo erroneo`, () => {
   afterAll(async () => {
     await driver.quit();
   })
-})
+}) */

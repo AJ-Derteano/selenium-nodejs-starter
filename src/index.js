@@ -23,7 +23,7 @@ const testOptions = envSettings.loadJsonFileSync("testOptions.json", "utf8");
  */
 const createTable = (suiteIdentifier, stderr, virtualUser) => {
   const jestOutput = require(`../tmp/${suiteIdentifier}-jest-output.json`);
-  const fixedFolder = testOptions.fixedFolder
+  const reportMode = testOptions.reportMode
 
   console.info(
     `\n# ${virtualUser} Jest report table for the ${suiteIdentifier} suite\n`
@@ -36,9 +36,9 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
   tableHead.push("#".blue);
   colWidths.push(3);
 
-  testOptions.customColumns.forEach((column, index) => {
+  testOptions.columnNames.forEach((column, index) => {
     tableHead.push(`${column}`.blue);
-    colWidths.push(index !== 1 ? 30 : 40);
+    colWidths.push(index !== 1 ? 25 : 50);
   });
 
   tableHead.push("Status".blue);
@@ -80,7 +80,7 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
     /**
      * If the length is greater than allowed, adjust
      */
-    if (tableValues.length > fixedFolder) {
+    if (reportMode === 'dynamicDeep') {
       let fixedTableValues = [];
 
       /**
@@ -99,7 +99,7 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
       tableValues = fixedTableValues
     }
 
-    if (tableValues.length !== testOptions.customColumns.length) {
+    if (tableValues.length !== testOptions.columnNames.length) {
       console.log(
         `${path[path.length - 1]} does not meet your columns definition.`.yellow
       );
@@ -109,7 +109,7 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
 
     contentToPush.push((testResultIndex + 1).toString());
 
-    for (let index = 0; index < testOptions.customColumns.length; index++) {
+    for (let index = 0; index < testOptions.columnNames.length; index++) {
       if (tableValues[index]) {
         contentToPush.push(tableValues[index]);
       } else {
@@ -188,23 +188,23 @@ const main = () => {
           {
             env: { ...suite.variables },
           }
-        )
-          .then((result) => {
-            console.info(result.stderr.blue); //* Print the jest result
-            if (testOptions.customColumns.length > 0) {
-              createTable(suiteIdentifier, result.stderr.blue, index);
+        ).then((result) => {
+          // Print the jest result
+          console.info(result.stderr.blue);
+          if (testOptions.columnNames.length > 0) {
+            createTable(suiteIdentifier, result.stderr.blue, index);
+          }
+        }).catch((err) => {
+          if (!err.killed) {
+            // Print the jest result
+            console.info(err.stderr.red);
+            if (testOptions.columnNames.length > 0) {
+              createTable(suiteIdentifier, err.stderr.red, index);
             }
-          })
-          .catch((err) => {
-            if (!err.killed) {
-              console.info(err.stderr.red); //* Print the jest result
-              if (testOptions.customColumns.length > 0) {
-                createTable(suiteIdentifier, err.stderr.red, index);
-              }
-            } else {
-              console.error("error".red, err);
-            }
-          });
+          } else {
+            console.error("error".red, err);
+          }
+        });
       }
       suiteIndex++;
     }

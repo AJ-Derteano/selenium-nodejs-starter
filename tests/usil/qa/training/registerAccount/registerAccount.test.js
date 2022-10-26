@@ -1,4 +1,4 @@
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
+/* const trainingHelpers = require("../../../../../src/helpers/training.helpers");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 
 const userData = {
@@ -31,4 +31,4 @@ describe(`Registro de usuario`, () => {
   afterAll(async () => {
     await driver.quit();
   })
-})
+}) */

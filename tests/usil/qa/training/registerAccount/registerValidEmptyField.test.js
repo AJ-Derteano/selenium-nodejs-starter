@@ -1,4 +1,4 @@
-const trainingHelpers = require("../../../../../src/helpers/training.helpers");
+/* const trainingHelpers = require("../../../../../src/helpers/training.helpers");
 const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 
@@ -36,4 +36,4 @@ describe(`Error registering with empty fields`, () => {
   afterAll(async () => {
     await driver.quit();
   })
-})
+}) */

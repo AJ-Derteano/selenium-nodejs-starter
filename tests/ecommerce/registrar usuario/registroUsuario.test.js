@@ -1,10 +1,12 @@
-const ecommerceHelper = require("../ecommerceHelper");
 const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
 
-const productName = process.env.productName;
+const ecommerceHelper = require("../ecommerceHelper");
+const commonSteps = require("../commonSteps");
 
-let expectValue = process.env.expectValue;
+const userData = {
+
+}
 
 describe(`Register a new product`, () => {
   let driver;
@@ -17,12 +19,12 @@ describe(`Register a new product`, () => {
     await driver.get("http://127.0.0.1:8000/");
   })
 
-  it(`Search product [${productName}]`, async () => {
-    const value = await ecommerceHelper.searchItem(driver, productName);
+  it(`Register account customer`, async () => {
+    /* const value = await ecommerceHelper.searchItem(driver, productName);
 
     await driverScreen(driver, 'search_item')
 
-    expect(value).toBeGreaterThanOrEqual(parseInt(expectValue));
+    expect(value).toBeGreaterThanOrEqual(parseInt(expectValue)); */
   })
 
   afterAll(async () => {

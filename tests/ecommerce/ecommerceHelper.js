@@ -128,7 +128,7 @@ const ecommerceHelper = {
 
       return currentURL.split('/').pop()
     } catch (err) {
-      console.log(131, err)
+      console.log(err)
     }
   },
   registerItem: async (driver, product) => {
