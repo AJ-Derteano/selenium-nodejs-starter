@@ -4,7 +4,7 @@
   "reportMode": "dynamicDeep",
   "columnNames": [
     "system",
-    "functionality",
+    "feature",
     "scenario"
   ],
   "virtualUserSuites": [
