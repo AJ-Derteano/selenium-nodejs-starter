@@ -2,8 +2,10 @@ const { By } = require("selenium-webdriver");
 const setting = require("./setting");
 
 const commonSteps = {
-  loginAdmin: async (driver) => {
-    const { user, password } = setting.getCredentialsAdmin();
+  loginEcommerceAdmin: async (driver) => {
+    const { url, user, password } = setting.getCredentialsAdmin();
+
+    await driver.get(url);
 
     const inpUserName = await driver.findElement(By.name("username"));
     inpUserName.sendKeys(user);
@@ -14,8 +16,8 @@ const commonSteps = {
     const btnLogin = await driver.findElement(By.css("form.box input[type='submit']"));
     btnLogin.click();
   },
-  openDriverUrl: async (driver) => {
-    const { url } = setting.getUrl();
+  openDriverEcommerce: async (driver) => {
+    const { url } = setting.getUrlEcommerce();
 
     await driver.get(url);
   },

@@ -1,8 +1,9 @@
-const ecommerceHelper = require("../ecommerceHelper");
-const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
+const driverScreen = require("../../../src/utilitys/driverScreen");
+const { getVarEnv } = require("../../../src/helpers/testHelpers");
+const ecommerceHelper = require("../ecommerceHelper");
 const commonSteps = require("../commonSteps");
-let expectValue = process.env.expectValue;
+let expectValue = getVarEnv('delete.expectValue');
 
 describe(`Test cases for products`, () => {
   let driver;
@@ -10,8 +11,7 @@ describe(`Test cases for products`, () => {
   beforeAll(async () => {
     driver = await getBrowserDriver();
 
-    await commonSteps.openDriverUrl(driver);
-    await commonSteps.loginAdmin(driver)
+    await commonSteps.loginEcommerceAdmin(driver);
   })
 
   beforeEach(async () => {

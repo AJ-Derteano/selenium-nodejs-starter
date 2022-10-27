@@ -3,16 +3,17 @@ const getBrowserDriver = require("../../../src/browsers/browserDriver");
 
 const ecommerceHelper = require("../ecommerceHelper");
 const commonSteps = require("../commonSteps");
+const { getVarEnv } = require("../../../src/helpers/testHelpers");
 
 const product = {
-  name: process.env.productName,
-  description: process.env.description,
-  price: process.env.price,
-  product_image: process.env.productImage,
+  name: getVarEnv('modificarProducto.productName'),
+  description: getVarEnv('modificarProducto.description'),
+  price: getVarEnv('modificarProducto.price'),
+  product_image: getVarEnv('modificarProducto.productImage')
 }
 
 
-let expectValue = process.env.expectValue;
+let expectValue = getVarEnv('modificarProducto.expectValue');
 
 describe(`Test cases for products`, () => {
   let driver;
@@ -20,8 +21,7 @@ describe(`Test cases for products`, () => {
   beforeAll(async () => {
     driver = await getBrowserDriver();
 
-    await commonSteps.openDriverUrl(driver);
-    await commonSteps.loginAdmin(driver)
+    await commonSteps.loginEcommerceAdmin(driver);
   })
 
   beforeEach(async () => {
@@ -31,7 +31,7 @@ describe(`Test cases for products`, () => {
   it(`Update product [${product.name}]`, async () => {
     const value = await ecommerceHelper.updateItem(driver, product);
 
-    await driverScreen(driver, 'update_item')
+    // await driverScreen(driver, 'update_item')
 
     expect(value).toEqual(parseInt(expectValue));
   })

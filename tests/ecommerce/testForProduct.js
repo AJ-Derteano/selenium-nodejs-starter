@@ -19,8 +19,6 @@ let expectValue = process.env.expectValue;
  * NEGATIVE
  * 1.- E001
  */
-const devTest = process.env;
-console.log(20, devTest)
 
 // T001 - Register new product
 describe(`Register new product`, () => {

@@ -1,10 +1,12 @@
 const ecommerceHelper = require("../ecommerceHelper");
 const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
+const { getVarEnv } = require("../../../src/helpers/testHelpers");
+const commonSteps = require("../commonSteps");
 
-const productName = process.env.productName;
+const productName = getVarEnv('productName')
 
-let expectValue = process.env.expectValue;
+let expectValue = getVarEnv('expectValue')
 
 describe(`Register a new product`, () => {
   let driver;
@@ -14,13 +16,13 @@ describe(`Register a new product`, () => {
   })
 
   beforeEach(async () => {
-    await driver.get("http://127.0.0.1:8000/");
+    commonSteps.openDriverEcommerce(driver)
   })
 
   it(`Search product [${productName}]`, async () => {
     const value = await ecommerceHelper.searchItem(driver, productName);
 
-    await driverScreen(driver, 'search_item')
+    // await driverScreen(driver, 'search_item')
 
     expect(value).toBeGreaterThanOrEqual(parseInt(expectValue));
   })

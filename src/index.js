@@ -3,17 +3,18 @@ require("dotenv").config();
 
 const Table = require("cli-table");
 const os = require("os");
-
 const { EnvSettings } = require("advanced-settings");
-
 const util = require("util");
-const sortArrayJson = require("./helpers/sortResult");
 
 const exec = util.promisify(require("child_process").exec);
 
 const envSettings = new EnvSettings();
 
+const { formatVarsEnv, sortTestResults } = require("./helpers/testHelpers");
+
 const testOptions = envSettings.loadJsonFileSync("testOptions.json", "utf8");
+const columnNames = testOptions.columnNames;
+const reportMode = testOptions.reportMode;
 
 /**
  *
@@ -38,9 +39,14 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
   tableHead.push("#".blue);
   colWidths.push(3);
 
-  testOptions.columnNames.forEach((column, index) => {
+  columnNames.forEach((column, index) => {
+    let columnWidth = 30;
+
+    if (reportMode === "dynamicDeep")
+      columnWidth = index !== 1 ? 25 : 50
+
     tableHead.push(`${column}`.blue);
-    colWidths.push(index !== 1 ? 25 : 50);
+    colWidths.push(columnWidth);
   });
 
   tableHead.push("Status".blue);
@@ -55,7 +61,7 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
   let testResultIndex = 0;
 
 
-  let testResults = sortArrayJson(jestOutput.testResults, 'name')
+  let testResults = sortTestResults(jestOutput.testResults)
 
   for (const testResult of testResults) {
 
@@ -77,6 +83,12 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
 
     let tableValues = path.slice(testIndex + 1, path.length);
 
+    if (tableValues.length !== columnNames.length && reportMode !== 'dynamicDeep') {
+      console.log(
+        `${path[path.length - 1]} does not meet your columns definition.`.yellow
+      );
+    }
+
     /**
      * Rename the stage to remove'.test.js'
      */
@@ -87,35 +99,29 @@ const createTable = (suiteIdentifier, stderr, virtualUser) => {
      * If the length is greater than allowed, adjust
      */
     if (reportMode === 'dynamicDeep') {
-      let fixedTableValues = [];
+      let fixedColumns = [];
 
       /**
        * The first is the system and we remove it so as not to adjust it
        */
-      fixedTableValues.push(tableValues.shift())
+      fixedColumns.push(tableValues.shift())
 
       let option = '';
       for (let index = 0; index < tableValues.length - 1; index++) {
         option += `/${tableValues[index]}`
       }
 
-      fixedTableValues.push(option)
-      fixedTableValues.push(tableValues.pop())
+      fixedColumns.push(option)
+      fixedColumns.push(tableValues.pop())
 
-      tableValues = fixedTableValues
-    }
-
-    if (tableValues.length !== testOptions.columnNames.length) {
-      console.log(
-        `${path[path.length - 1]} does not meet your columns definition.`.yellow
-      );
+      tableValues = fixedColumns
     }
 
     const contentToPush = [];
 
     contentToPush.push((testResultIndex + 1).toString());
 
-    for (let index = 0; index < testOptions.columnNames.length; index++) {
+    for (let index = 0; index < columnNames.length; index++) {
       if (tableValues[index]) {
         contentToPush.push(tableValues[index]);
       } else {
@@ -180,11 +186,14 @@ const main = () => {
 
         console.log(testFiles.join(" "));
 
+        // Format variables for environment variables
+        let varToEnv = formatVarsEnv(suite.variables)
+
         /**
          * When not in windows, the path is added
          */
         if (sysOS !== 'Windows_NT') {
-          suite.variables.PATH = process.env.PATH
+          varToEnv.PATH = process.env.PATH
         }
 
         //* Spawns the jest process
@@ -193,19 +202,19 @@ const main = () => {
             " "
           )}`,
           {
-            env: { ...suite.variables },
+            env: { ...varToEnv },
           }
         ).then((result) => {
           // Print the jest result
           console.info(result.stderr.blue);
-          if (testOptions.columnNames.length > 0) {
+          if (columnNames.length > 0) {
             createTable(suiteIdentifier, result.stderr.blue, index);
           }
         }).catch((err) => {
           if (!err.killed) {
             // Print the jest result
             console.info(err.stderr.red);
-            if (testOptions.columnNames.length > 0) {
+            if (columnNames.length > 0) {
               createTable(suiteIdentifier, err.stderr.red, index);
             }
           } else {

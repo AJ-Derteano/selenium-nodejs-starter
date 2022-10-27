@@ -74,60 +74,41 @@
       }
     },
     {
-      "skip": true,
-      "identifier": "ecommerce-registrar",
-      "files": [
-        "crearProductoSimple.test"
-      ],
-      "variables": {
-        "url": "http://127.0.0.1:8000/adminlogin",
-        "username": "admin",
-        "passwd": "javaisthebest",
-        "productName": "Smart TV LG",
-        "description": "Smart Tv LG 55'' OLED 8K",
-        "price": 1599,
-        "productImage": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/smart_tv_oled.webp",
-        "expectValue": "registered"
-      }
-    },
-    {
       "skip": false,
-      "identifier": "ecommerce-buscar",
-      "files": [
-        "buscarProducto.test"
-      ],
-      "variables": {
-        "productName": "Smart TV LG",
-        "expectValue": 1
-      }
-    },
-    {
-      "skip": true,
       "identifier": "ecommerce",
       "files": [
-        "modificarProducto.test"
-      ],
-      "variables": {
-        "url": "http://127.0.0.1:8000/adminlogin",
-        "username": "admin",
-        "passwd": "javaisthebest",
-        "productName": "Smart TV LG",
-        "description": "Smart Tv LG 55'' OLED 8K",
-        "price": 2999,
-        "expectValue": 1
-      }
-    },
-    {
-      "skip": true,
-      "identifier": "ecommerce-delete",
-      "files": [
+        "buscarProducto.test",
+        "crearProductoSimple.test",
+        "modificarProducto.test",
         "eliminarProducto.test"
       ],
       "variables": {
-        "url": "http://127.0.0.1:8000/adminlogin",
-        "username": "admin",
-        "passwd": "javaisthebest",
-        "expectValue": -1
+        "url_ecommerce": "http://127.0.0.1:8000/",
+        "productName": "Smart TV LG",
+        "expectValue": 1,
+        "admin_credentials": {
+          "url": "http://127.0.0.1:8000/adminlogin",
+          "username": "admin",
+          "password": "javaisthebest"
+        },
+        "registrarProducto": {
+          "username": "admin",
+          "passwd": "javaisthebest",
+          "productName": "Smart TV LG",
+          "description": "Smart Tv LG 55'' OLED 8K",
+          "price": 1599,
+          "productImage": "/home/andresneyra/aj_derteano/selenium-nodejs-starter/assets/smart_tv_oled.webp",
+          "expectValue": "registered"
+        },
+        "modificarProducto": {
+          "productName": "Smart TV LG",
+          "description": "Smart Tv LG 55'' OLED 8K",
+          "price": 2999,
+          "expectValue": 1
+        },
+        "delete": {
+          "expectValue": -1
+        }
       }
     },
     {

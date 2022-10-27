@@ -2,20 +2,16 @@ const ecommerceHelper = require("../../../ecommerceHelper")
 const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 const commonSteps = require("../../../commonSteps");
+const { getVarEnv } = require("../../../../../src/helpers/testHelpers");
 
 const product = {
-  name: process.env.productName,
-  description: process.env.description,
-  price: process.env.price,
-  product_image: process.env.productImage,
+  name: getVarEnv("registrarProducto.productName"),
+  description: getVarEnv("registrarProducto.description"),
+  price: getVarEnv("registrarProducto.price"),
+  product_image: getVarEnv("registrarProducto.productImage")
 }
 
-const credentials = {
-  username: process.env.username,
-  password: process.env.passwd,
-}
-
-let expectValue = process.env.expectValue;
+let expectValue = getVarEnv("registrarProducto.expectValue");
 
 describe(`Test cases for products`, () => {
   let driver;
@@ -23,8 +19,7 @@ describe(`Test cases for products`, () => {
   beforeAll(async () => {
     driver = await getBrowserDriver();
 
-    await commonSteps.openDriverUrl(driver);
-    await commonSteps.loginAdmin(driver)
+    await commonSteps.loginEcommerceAdmin(driver)
   })
 
   beforeEach(async () => {
