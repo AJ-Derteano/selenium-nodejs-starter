@@ -1,5 +1,4 @@
 const { By, until, Key } = require("selenium-webdriver");
-const driverScreen = require("../../src/utilitys/driverScreen");
 
 const ecommerceHelper = {
   createAcount: async (driver, userData) => {

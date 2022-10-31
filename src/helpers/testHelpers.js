@@ -1,4 +1,6 @@
 const os = require("os");
+const fs = require("fs")
+const path = require("path")
 
 /**
  * 
@@ -48,7 +50,7 @@ const formatVarsEnv = (vars) => {
       let newVar = `
         {"${propertyObject}":"${vars[propertyObject]}"}
       `;
-      
+
       newVar = JSON.parse(newVar)
 
       varsToEnv = { ...varsToEnv, ...newVar }
@@ -130,4 +132,70 @@ const sortTestResults = (results) => {
   return object
 }
 
-module.exports = { formatVarsEnv, getVarEnv, sortTestResults }
+/**
+ * 
+ * @param {object} driver Selenium driver
+ * @param {string} filePath Path where the test is executed
+ * 
+ * @description
+ * Take a screenshot of the window that is being navigated with the driver, 
+ * save this capture in screenshots grouped by the first column of the test
+ */
+const driverScreenshot = async (driver, filePath, runningTest) => {
+  const SEPARATOR_PATH = os.type() === "Windows_NT" ? "\\" : "/";
+  const DEFAULT_PATH = './screenshots';
+  const TEST_UUID = getVarEnv('TEST_UUID');
+
+  // Get the execution path of the test and add the folder for the test id
+  let file_path = filePath.split(SEPARATOR_PATH);
+  let tests_index = file_path.indexOf('tests');
+
+  file_path = file_path.slice(tests_index + 1);
+  file_path.unshift(TEST_UUID)
+
+  // Take the screenshot
+  const screenshot = await driver.takeScreenshot();
+
+  // Create file name
+  let date = new Date()
+  let screenshot_date =
+    date.toLocaleDateString().replaceAll('/', '_') + '_' +
+    date.toLocaleTimeString('en-US', { hour12: false }).replaceAll(':', '-');
+  let running_test = runningTest.split('-')[0].trim()
+  
+  const file = `${(running_test || screenshot_date) + '-'}${file_path.pop().split('.test')[0]}.png`
+
+  // Verify that the default folder for screenshots exists
+  if (!fs.existsSync(DEFAULT_PATH))
+    await fs.promises.mkdir(DEFAULT_PATH)
+
+  // Build the screenshot path
+  let screenshot_test_path = '';
+  file_path.map(el => {
+    screenshot_test_path += `${SEPARATOR_PATH}${el}`
+  })
+
+  // Create the folders to save the screenshot
+  await fs.promises.mkdir(path.join(DEFAULT_PATH, screenshot_test_path), { recursive: true })
+
+  // Create the file in the defined path
+  fs.writeFile(
+    `${DEFAULT_PATH}${screenshot_test_path}${SEPARATOR_PATH}${file}`,
+    await screenshot,
+    { encoding: 'base64' },
+    (err) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('File written successfully\n', `${file}`)
+      }
+    }
+  )
+}
+
+module.exports = {
+  formatVarsEnv,
+  getVarEnv,
+  sortTestResults,
+  driverScreenshot
+}

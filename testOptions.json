@@ -9,25 +9,20 @@
   ],
   "virtualUserSuites": [
     {
-      "skip": true,
-      "identifier": "first-test",
+      "skip": false,
+      "identifier": "seo-google",
       "files": [
         "shouldAppearFirstFour.test"
       ],
       "variables": {
-        "url": "https://usil.edu.pe/",
-        "searchText": "USIL"
-      }
-    },
-    {
-      "skip": true,
-      "identifier": "second-test",
-      "files": [
-        "shouldAppearFirstFour.test"
-      ],
-      "variables": {
-        "url": "https://www.coloringdreams.com/",
-        "searchText": "${SECRET_SEARCH}"
+        "usil": {
+          "url": "https://usil.edu.pe/",
+          "searchText": "USIL"
+        },
+        "coloringdreams": {
+          "url": "https://www.coloringdreams.com/",
+          "searchText": "${SECRET_SEARCH}"
+        }
       }
     },
     {
@@ -74,7 +69,7 @@
       }
     },
     {
-      "skip": false,
+      "skip": true,
       "identifier": "ecommerce",
       "files": [
         "buscarProducto.test",
@@ -107,7 +102,7 @@
           "expectValue": 1
         },
         "delete": {
-          "expectValue": -1
+          "expectValue": -100
         }
       }
     },

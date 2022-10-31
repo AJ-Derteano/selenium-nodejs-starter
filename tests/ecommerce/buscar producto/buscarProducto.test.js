@@ -1,30 +1,40 @@
 const ecommerceHelper = require("../ecommerceHelper");
-const driverScreen = require("../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../src/browsers/browserDriver");
-const { getVarEnv } = require("../../../src/helpers/testHelpers");
+const { getVarEnv, driverScreenshot } = require("../../../src/helpers/testHelpers");
 const commonSteps = require("../commonSteps");
 
 const productName = getVarEnv('productName')
 
 let expectValue = getVarEnv('expectValue')
 
-describe(`Register a new product`, () => {
+describe(`Search products`, () => {
   let driver;
+  let testStatus = false;
+  let runningTest = null;
+  const findProductMatch = `7aa95d27 - Search product [${productName}]`;
 
   beforeAll(async () => {
     driver = await getBrowserDriver();
   })
 
   beforeEach(async () => {
-    commonSteps.openDriverEcommerce(driver)
+    commonSteps.openDriverEcommerce(driver);
+    testStatus = false;
   })
 
-  it(`Search product [${productName}]`, async () => {
+  it(findProductMatch, async () => {
+    runningTest = findProductMatch;
     const value = await ecommerceHelper.searchItem(driver, productName);
 
-    // await driverScreen(driver, 'search_item')
-
     expect(value).toBeGreaterThanOrEqual(parseInt(expectValue));
+    testStatus = true;
+  })
+
+  afterEach(() => {
+    if (!testStatus) {
+      console.log(`Screenshot for the failed test: ${runningTest}`)
+      driverScreenshot(driver, __filename, runningTest)
+    }
   })
 
   afterAll(async () => {

@@ -3,6 +3,8 @@ require("dotenv").config();
 
 const Table = require("cli-table");
 const os = require("os");
+const { v4 } = require("uuid")
+
 const { EnvSettings } = require("advanced-settings");
 const util = require("util");
 
@@ -26,7 +28,6 @@ const reportMode = testOptions.reportMode;
 const createTable = (suiteIdentifier, stderr, virtualUser) => {
 
   const jestOutput = require(`../tmp/${suiteIdentifier}-jest-output.json`);
-  const reportMode = testOptions.reportMode
 
   console.info(
     `\n# ${virtualUser} Jest report table for the ${suiteIdentifier} suite\n`
@@ -196,6 +197,11 @@ const main = () => {
           varToEnv.PATH = process.env.PATH
         }
 
+        /**
+         * Generate id for test
+         */
+        varToEnv.TEST_UUID = v4();
+
         //* Spawns the jest process
         exec(
           `npx jest --verbose --json --runInBand --outputFile=tmp/${suiteIdentifier}-jest-output.json ${testFiles.join(
@@ -206,14 +212,14 @@ const main = () => {
           }
         ).then((result) => {
           // Print the jest result
-          console.info(result.stderr.blue);
+          console.info(`Test ID: ${varToEnv.TEST_UUID}\n`, result.stderr.blue);
           if (columnNames.length > 0) {
             createTable(suiteIdentifier, result.stderr.blue, index);
           }
         }).catch((err) => {
           if (!err.killed) {
             // Print the jest result
-            console.info(err.stderr.red);
+            console.info(`Test ID: ${varToEnv.TEST_UUID}\n`, err.stderr.red);
             if (columnNames.length > 0) {
               createTable(suiteIdentifier, err.stderr.red, index);
             }

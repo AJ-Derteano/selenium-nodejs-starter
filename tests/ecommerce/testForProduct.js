@@ -1,4 +1,3 @@
-const driverScreen = require("../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../src/browsers/browserDriver");
 
 const ecommerceHelper = require("./ecommerceHelper");
@@ -60,8 +59,6 @@ describe(`Find product by match`, () => {
 
   it(`Search product`, async () => {
     const value = await ecommerceHelper.searchItem(driver, productName);
-
-    await driverScreen(driver, 'search_item')
 
     expect(value).toBeGreaterThanOrEqual(parseInt(expectValue));
   })

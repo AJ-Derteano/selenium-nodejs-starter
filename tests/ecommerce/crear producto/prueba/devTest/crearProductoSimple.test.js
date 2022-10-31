@@ -1,5 +1,4 @@
 const ecommerceHelper = require("../../../ecommerceHelper")
-const driverScreen = require("../../../../../src/utilitys/driverScreen");
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 const commonSteps = require("../../../commonSteps");
 const { getVarEnv } = require("../../../../../src/helpers/testHelpers");
