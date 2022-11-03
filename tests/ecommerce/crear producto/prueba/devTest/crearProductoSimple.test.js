@@ -1,7 +1,7 @@
 const ecommerceHelper = require("../../../ecommerceHelper")
 const getBrowserDriver = require("../../../../../src/browsers/browserDriver");
 const commonSteps = require("../../../commonSteps");
-const { getVarEnv } = require("../../../../../src/helpers/testHelpers");
+const { getVarEnv, driverScreenshot } = require("../../../../../src/helpers/testHelpers");
 
 const product = {
   name: getVarEnv("registrarProducto.productName"),
@@ -27,6 +27,8 @@ describe(`Test cases for products`, () => {
 
   it(`Register product [${product.name}]`, async () => {
     const value = await ecommerceHelper.registerItem(driver, product);
+
+    driverScreenshot(driver, expect.getState().testPath, expect.getState().currentTestName)
 
     expect(value).toEqual(expectValue);
   })

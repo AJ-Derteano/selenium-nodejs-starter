@@ -4,6 +4,39 @@ const path = require("path")
 
 /**
  * 
+ * @param {string} string String of text to clean
+ * @returns {string}
+ * @description
+ * Clear the text string and return the clean string
+ */
+const getCleanedString = (string) => {
+  // Characters we don't want to support
+  var specialChars = "!@#$^&%*()+=-[]\/{}|:<>?,.";
+
+  // Remove characters we don't support
+  for (var i = 0; i < specialChars.length; i++) {
+    string = string.replaceAll(new RegExp("\\" + specialChars[i], 'gi'), '');
+  }
+
+  // Convert to lowercase
+  string = string.toLowerCase();
+
+  // Replace spaces with "_"
+  string = string.replace(/ /g, "_");
+
+  // Replace special characters
+  string = string.replace(/á/gi, "a");
+  string = string.replace(/é/gi, "e");
+  string = string.replace(/í/gi, "i");
+  string = string.replace(/ó/gi, "o");
+  string = string.replace(/ú/gi, "u");
+  string = string.replace(/ñ/gi, "n");
+
+  return string;
+}
+
+/**
+ * 
  * @param {object} vars User-defined variables
  * @returns {object} Format for environment variables
  * 
