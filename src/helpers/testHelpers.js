@@ -142,28 +142,40 @@ const sortTestResults = (results) => {
  * save this capture in screenshots grouped by the first column of the test
  */
 const driverScreenshot = async (driver, filePath, runningTest) => {
-  const SEPARATOR_PATH = os.type() === "Windows_NT" ? "\\" : "/";
+  const SPLIT_PATH = os.type() === "Windows_NT" ? "\\" : "/";
   const DEFAULT_PATH = './screenshots';
   const TEST_UUID = getVarEnv('TEST_UUID');
 
   // Get the execution path of the test and add the folder for the test id
-  let file_path = filePath.split(SEPARATOR_PATH);
+  let file_path = filePath.split(SPLIT_PATH);
   let tests_index = file_path.indexOf('tests');
 
   file_path = file_path.slice(tests_index + 1);
-  file_path.unshift(TEST_UUID)
+  file_path.unshift(TEST_UUID);
 
   // Take the screenshot
   const screenshot = await driver.takeScreenshot();
 
   // Create file name
-  let date = new Date()
+  let date = new Date();
   let screenshot_date =
     date.toLocaleDateString().replaceAll('/', '_') + '_' +
     date.toLocaleTimeString('en-US', { hour12: false }).replaceAll(':', '-');
-  let running_test = runningTest.split('-')[0].trim()
-  
-  const file = `${(running_test || screenshot_date) + '-'}${file_path.pop().split('.test')[0]}.png`
+
+  // Get id test 
+  if (runningTest) {
+    runningTest = runningTest.split('-')
+    var running_test = {
+      id: runningTest.length > 1 ? runningTest[0] : null,
+      scenario: runningTest.length > 1 ? runningTest[1] : runningTest[0]
+    }
+  }
+
+  /**
+   * File name : ID Test || Date + Scenario
+   */
+  const file =
+    `${running_test.id || screenshot_date}_${getCleanedString(running_test.scenario)}.png`;
 
   // Verify that the default folder for screenshots exists
   if (!fs.existsSync(DEFAULT_PATH))
@@ -172,7 +184,7 @@ const driverScreenshot = async (driver, filePath, runningTest) => {
   // Build the screenshot path
   let screenshot_test_path = '';
   file_path.map(el => {
-    screenshot_test_path += `${SEPARATOR_PATH}${el}`
+    screenshot_test_path += `${SPLIT_PATH}${el}`
   })
 
   // Create the folders to save the screenshot
@@ -180,7 +192,7 @@ const driverScreenshot = async (driver, filePath, runningTest) => {
 
   // Create the file in the defined path
   fs.writeFile(
-    `${DEFAULT_PATH}${screenshot_test_path}${SEPARATOR_PATH}${file}`,
+    `${DEFAULT_PATH}${screenshot_test_path}${SPLIT_PATH}${file}`,
     await screenshot,
     { encoding: 'base64' },
     (err) => {
@@ -193,9 +205,76 @@ const driverScreenshot = async (driver, filePath, runningTest) => {
   )
 }
 
+/**
+ * 
+ * @param {string} UUID Test identifier
+ * @param {object} reportDataJSON Data returned by the jest
+ * @param {array} columnsName Column names
+ * @param {array} columnData Column content
+ * 
+ * @description
+ * Generate the file in HTML, for the test results
+ */
+const genReportHTML = async (UUID, reportName, jestOutput, reportData, columnsName) => {
+  /**
+   * @description
+   * Receive the seconds and return in hh:mm:ss format
+   * 
+   * @returns {string}
+   */
+  function __secondsToDurationStr(seconds) {
+    let hour = Math.floor(seconds / 3600);
+    hour = (hour < 10) ? '0' + hour : hour;
+
+    let minute = Math.floor((seconds / 60) % 60);
+    minute = (minute < 10) ? '0' + minute : minute;
+
+    let second = Math.floor(seconds % 60);
+    second = (second < 10) ? '0' + second : second;
+
+    return hour + ':' + minute + ':' + second;
+  }
+
+  let report_data_json = {};
+
+  report_data_json.duration =
+    __secondsToDurationStr(
+      (jestOutput.testResults[0].endTime -
+        jestOutput.testResults[0].startTime) /
+      1000
+    );
+
+  report_data_json.columnsData = reportData
+
+  report_data_json.report_name = reportName;
+  report_data_json.passed = jestOutput.numPassedTests;
+  report_data_json.failed = jestOutput.numFailedTests;
+  report_data_json.total = jestOutput.numTotalTests;
+
+  try {
+    const index = fs.readFileSync('./src/helpers/reportTemplate/index.html', { encoding: 'utf8' });
+
+    let result = index.replace(/#data_report/g, JSON.stringify(report_data_json));
+    result = result.replace(/#columns_name/g, JSON.stringify(columnsName))
+    result = result.replace(/#report_duration/g, report_data_json.duration)
+
+    // Verify that the default folder for report exists
+    if (!fs.existsSync("./report"))
+      await fs.promises.mkdir(`./report`)
+
+    if (!fs.existsSync(`./report/${UUID}`))
+      await fs.promises.mkdir(`./report/${UUID}`)
+
+    fs.writeFileSync(`./report/${UUID}/${reportName}.html`, result, 'utf-8')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   formatVarsEnv,
   getVarEnv,
   sortTestResults,
-  driverScreenshot
+  driverScreenshot,
+  genReportHTML
 }

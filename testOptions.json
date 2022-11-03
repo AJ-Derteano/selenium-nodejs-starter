@@ -1,6 +1,7 @@
 {
   "files": [],
   "virtualUserMultiplier": 1,
+  "reportHTML": true,
   "reportMode": "dynamicDeep",
   "columnNames": [
     "system",
@@ -69,7 +70,7 @@
       }
     },
     {
-      "skip": true,
+      "skip": false,
       "identifier": "ecommerce",
       "files": [
         "buscarProducto.test",
@@ -102,7 +103,7 @@
           "expectValue": 1
         },
         "delete": {
-          "expectValue": -100
+          "expectValue": -1
         }
       }
     },
