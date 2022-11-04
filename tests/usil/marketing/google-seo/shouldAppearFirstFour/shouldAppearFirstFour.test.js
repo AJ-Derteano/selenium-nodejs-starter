@@ -5,8 +5,8 @@ const { getVarEnv } = require("../../../../../src/helpers/testHelpers");
 const usil_url = getVarEnv('usil.url');
 const usil_text = getVarEnv('usil.searchText');
 
-const cld_url = getVarEnv('usil.url')
-const cld_text = getVarEnv('usil.searchText')
+const cld_url = getVarEnv('coloringdreams.url')
+const cld_text = getVarEnv('coloringdreams.searchText')
 
 describe(`Link appears on the first 4 positions in the google search`, () => {
   let driver;
