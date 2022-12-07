@@ -157,6 +157,23 @@ const getVariable = (variable) => {
  */
 const sortTestResults = (results) => {
 
+  const __sortByLevel = (object, level = 1) => {
+    object.sort((firstElement, secondElement) => {
+      let first = firstElement.name.split(OS_SPLIT)
+      let second = secondElement.name.split(OS_SPLIT)
+
+      const testsIndex = first.indexOf('tests')
+
+      first = first.slice(testsIndex + level)
+      second = second.slice(testsIndex + level)
+
+      first = first[0].toLowerCase()
+      second = second[0].toLowerCase()
+
+      return first < second ? -1 : first > second ? 1 : 0
+    })
+  }
+
   // Return result if it only has one content
   if (results.length === 1)
     return results
@@ -168,22 +185,48 @@ const sortTestResults = (results) => {
   const OS_SPLIT = os.type() === "Windows_NT" ? "\\" : "/";
 
   // Get the results in alphabetical order at the first level
-  object.sort((firstElement, secondElement) => {
-    let first = firstElement.name.split(OS_SPLIT)
-    let second = secondElement.name.split(OS_SPLIT)
+  __sortByLevel(object, 1)
 
-    const testsIndex = first.indexOf('tests')
+  let returnResult = []
+  let groupResults = []
+  let currentGroup = null
 
-    first = first.slice(testsIndex + 1)
-    second = second.slice(testsIndex + 1)
+  let count = 0;
+  for (const obj of object) {
+    count++;
 
-    first = first[0].toLowerCase()
-    second = second[0].toLowerCase()
+    let name = obj.name.split(OS_SPLIT)
 
-    return first < second ? -1 : first > second ? 1 : 0
-  })
+    const testsIndex = name.indexOf('tests')
 
-  return object
+    name = name.slice(testsIndex + 1)
+
+    if (currentGroup === null || currentGroup != name[0]) {
+      currentGroup = name[0]
+
+      if (groupResults.length > 0) {
+        __sortByLevel(groupResults, 2)
+        
+        returnResult = [
+          ...returnResult,
+          ...groupResults
+        ]
+
+        groupResults = []
+      }
+    }
+
+    groupResults.push(obj)
+
+    if (count === object.length) {
+      returnResult = [
+        ...returnResult,
+        ...groupResults
+      ]
+    }
+  }
+
+  return returnResult
 }
 
 /**
